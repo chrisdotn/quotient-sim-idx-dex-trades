@@ -43,8 +43,17 @@ contract UniswapV4Listener is PoolManager$OnSwapFunction, NativeTokenResolver, I
         // fetch usdc value with CL oracle
         ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
         (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(inputs.key.currency0);
-        int128 absAmount0 = amount0 < 0 ? -amount0 : amount0;
-        trade.usdcValue =  uint256(int256(absAmount0)) * usdcPrice / 10 ** usdcDecimals;
+        if (usdcPrice != 0) {
+            int128 absAmount0 = amount0 < 0 ? -amount0 : amount0;
+            trade.usdcValue =  uint256(int256(absAmount0)) * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try currency1
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(inputs.key.currency1);
+            if (usdcPrice != 0) {
+                int128 absAmount1 = amount1 < 0 ? -amount1 : amount1;
+                trade.usdcValue =  uint256(int256(absAmount1)) * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
 
         if (inputs.params.zeroForOne) {
             trade.fromToken = inputs.key.currency0;

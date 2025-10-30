@@ -187,9 +187,9 @@ contract Triggers is ProtocolTriggers {
         uniswapV4Config.chainIdToAddressEnumerable.set(
             Chains.Ethereum, chainContract(Chains.Ethereum, 0x000000000004444c5dc75cB358380D2e3dE08A90)
         );
-        // uniswapV4Config.chainIdToAddressEnumerable.set(
-        //     Chains.Arbitrum, chainContract(Chains.Arbitrum, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
-        // );
+        uniswapV4Config.chainIdToAddressEnumerable.set(
+            Chains.Arbitrum, chainContract(Chains.Arbitrum, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
+        );
         airSwapV4Config.chainIdToAddressEnumerable.set(
             Chains.Ethereum, chainContract(Chains.Ethereum, 0xd82FA167727a4dc6D6F55830A2c47aBbB4b3a0F8)
         );

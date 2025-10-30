@@ -12,6 +12,10 @@ contract ChainlinkPriceFetcher {
     mapping(uint256 => mapping(address => address)) internal assetPriceFeeds;
 
     constructor() {
+        // (W)ETH/USD
+        assetPriceFeeds[1][0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2] = 0x5147eA642CAEF7BD9c1265AadcA78f997AbB9649;
+        assetPriceFeeds[10][0x4200000000000000000000000000000000000006] = 0x13e3Ee699D1909E989722E753853AE30b17e08c5;
+        assetPriceFeeds[42161][0x82aF49447D8a07e3bd95BD0d56f35241523fBab1] = 0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612;
         assetPriceFeeds[8453][0x4200000000000000000000000000000000000006] = 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70;
     }
 
