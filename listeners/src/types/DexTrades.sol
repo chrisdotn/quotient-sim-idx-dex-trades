@@ -22,6 +22,7 @@ pragma solidity ^0.8.13;
 /// @param txnOriginator The address of the transaction originator
 /// @param recipient The address of the recipient
 /// @param liquidityPool The address of the liquidity pool
+/// @param usdcValue The value of the trade in USDC
 struct DexTradeData {
     uint64 chainId;
     uint256 blockNumber;
@@ -41,4 +42,5 @@ struct DexTradeData {
     address txnOriginator;
     address recipient;
     address liquidityPool;
+    uint256 usdcValue;
 }

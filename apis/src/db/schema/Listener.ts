@@ -22,4 +22,5 @@ export const dexTrade = table("dex_trade", {
   txnOriginator: db.address('txn_originator'),
   recipient: db.address('recipient'),
   liquidityPool: db.address('liquidity_pool'),
+  usdcValue: db.uint256('usdc_value'),
 })

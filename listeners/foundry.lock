@@ -1,0 +1,8 @@
+{
+  "lib/forge-std": {
+    "rev": "a3dca253700f19f15b1837c57c67b9388f5cc3fb"
+  },
+  "lib/sim-idx-sol": {
+    "rev": "b5a3f88b8e89caaed9adbf4bbc8e9247cf5fe309"
+  }
+}

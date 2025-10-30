@@ -99,7 +99,8 @@ contract UniswapXListener is
             toTokenDecimals: uint8(takingTokenDecimals),
             txnOriginator: tx.origin,
             recipient: maker,
-            liquidityPool: platformContract
+            liquidityPool: platformContract,
+            usdcValue: 0
         });
         emit DexTrade(trade);
     }

@@ -36,7 +36,8 @@ contract MakerPSMListener is PSM$OnBuyGemFunction, PSM$OnSellGemFunction, IDexLi
             toTokenDecimals: uint8(toTokenDecimals),
             txnOriginator: tx.origin,
             recipient: inputs.usr,
-            liquidityPool: ctx.txn.call.callee()
+            liquidityPool: ctx.txn.call.callee(),
+            usdcValue: 0
         });
         emit DexTrade(trade);
     }
@@ -68,7 +69,8 @@ contract MakerPSMListener is PSM$OnBuyGemFunction, PSM$OnSellGemFunction, IDexLi
             toTokenDecimals: uint8(toTokenDecimals),
             txnOriginator: tx.origin,
             recipient: inputs.usr,
-            liquidityPool: ctx.txn.call.callee()
+            liquidityPool: ctx.txn.call.callee(),
+            usdcValue: 0
         });
         emit DexTrade(trade);
     }

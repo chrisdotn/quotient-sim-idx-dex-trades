@@ -12,6 +12,7 @@ import {BalanceDelta, BalanceDeltaLibrary} from "./libs/UniswapV4/BalanceDelta.s
 import {IHooks} from "./interfaces/UniswapV4/IHooks.sol";
 import {NativeTokenResolver} from "./NativeTokenResolver.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract UniswapV4Listener is PoolManager$OnSwapFunction, NativeTokenResolver, IDexListener {
     function PoolManager$onSwapFunction(
@@ -38,6 +39,12 @@ contract UniswapV4Listener is PoolManager$OnSwapFunction, NativeTokenResolver, I
         trade.recipient = ctx.txn.call.caller();
         trade.liquidityPool = ctx.txn.call.callee();
         trade.dex = "UniswapV4";
+
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(inputs.key.currency0);
+        int128 absAmount0 = amount0 < 0 ? -amount0 : amount0;
+        trade.usdcValue =  uint256(int256(absAmount0)) * usdcPrice / 10 ** usdcDecimals;
 
         if (inputs.params.zeroForOne) {
             trade.fromToken = inputs.key.currency0;

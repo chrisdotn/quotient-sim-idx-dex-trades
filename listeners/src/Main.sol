@@ -166,30 +166,30 @@ contract Triggers is ProtocolTriggers {
         uniswapV4Config.chainIdToAddressEnumerable.set(
             Chains.Unichain, chainContract(Chains.Unichain, 0x1F98400000000000000000000000000000000004)
         );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Optimism, chainContract(Chains.Optimism, 0x9a13F98Cb987694C9F086b1F5eB990EeA8264Ec3)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Zora, chainContract(Chains.Zora, 0x0575338e4C17006aE181B47900A84404247CA30f)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.WorldChain, chainContract(Chains.WorldChain, 0xb1860D529182ac3BC1F51Fa2ABd56662b7D13f33)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Ink, chainContract(Chains.Ink, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Soneium, chainContract(Chains.Soneium, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Base, chainContract(Chains.Base, 0x498581fF718922c3f8e6A244956aF099B2652b2b)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Ethereum, chainContract(Chains.Ethereum, 0x000000000004444c5dc75cB358380D2e3dE08A90)
-        );
-        uniswapV4Config.chainIdToAddressEnumerable.set(
-            Chains.Arbitrum, chainContract(Chains.Arbitrum, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
-        );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Optimism, chainContract(Chains.Optimism, 0x9a13F98Cb987694C9F086b1F5eB990EeA8264Ec3)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Zora, chainContract(Chains.Zora, 0x0575338e4C17006aE181B47900A84404247CA30f)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.WorldChain, chainContract(Chains.WorldChain, 0xb1860D529182ac3BC1F51Fa2ABd56662b7D13f33)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Ink, chainContract(Chains.Ink, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Soneium, chainContract(Chains.Soneium, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Base, chainContract(Chains.Base, 0x498581fF718922c3f8e6A244956aF099B2652b2b)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Ethereum, chainContract(Chains.Ethereum, 0x000000000004444c5dc75cB358380D2e3dE08A90)
+        // );
+        // uniswapV4Config.chainIdToAddressEnumerable.set(
+        //     Chains.Arbitrum, chainContract(Chains.Arbitrum, 0x360E68faCcca8cA495c1B759Fd9EEe466db9FB32)
+        // );
         airSwapV4Config.chainIdToAddressEnumerable.set(
             Chains.Ethereum, chainContract(Chains.Ethereum, 0xd82FA167727a4dc6D6F55830A2c47aBbB4b3a0F8)
         );
@@ -434,40 +434,40 @@ contract Triggers is ProtocolTriggers {
     }
 
     function triggers() external virtual override {
-        addTriggerForProtocol(psmConfig);
-        addTriggerForProtocol(univ2Config);
-        addTriggerForProtocol(univ3Config);
-        addTriggerForProtocol(bancorCarbonConfig);
-        addTriggerForProtocol(gpv2SettlementConfig);
-        addTriggerForProtocol(crocSwapConfig);
-        addTriggerForProtocol(curveOldExchangeConfig);
-        addTriggerForProtocol(curveExchangeConfig);
-        addTriggerForProtocol(balancerV2Config);
-        addTriggerForProtocol(maverickV1Config);
-        addTriggerForProtocol(uniswapXConfig);
+        // addTriggerForProtocol(psmConfig);
+        // addTriggerForProtocol(univ2Config);
+        // addTriggerForProtocol(univ3Config);
+        // addTriggerForProtocol(bancorCarbonConfig);
+        // addTriggerForProtocol(gpv2SettlementConfig);
+        // addTriggerForProtocol(crocSwapConfig);
+        // addTriggerForProtocol(curveOldExchangeConfig);
+        // addTriggerForProtocol(curveExchangeConfig);
+        // addTriggerForProtocol(balancerV2Config);
+        // addTriggerForProtocol(maverickV1Config);
+        // addTriggerForProtocol(uniswapXConfig);
         addTriggerForProtocol(uniswapV4Config);
-        addTriggerForProtocol(dodoV2Config);
-        addTriggerForProtocol(wooFiConfig);
-        addTriggerForProtocol(airSwapV4Config);
-        addTriggerForProtocol(airSwapV5Config);
-        addTriggerForProtocol(fluidDexConfig);
-        addTriggerForProtocol(oneInchLOPV4Config);
-        addTriggerForProtocol(kyberSwapLOPConfig);
-        addTriggerForProtocol(kyberSwapDSLOPConfig);
-        addTriggerForProtocol(maverickV2Config);
-        addTriggerForProtocol(ekuboConfig);
-        addTriggerForProtocol(zeroExProtocolConfig);
-        addTriggerForProtocol(zeroExSettlerConfig);
-        addTriggerForProtocol(balancerV3Config);
-        addTriggerForProtocol(eulerSwapConfig);
-        addTriggerForProtocol(aerodromeSlipstreamConfig);
-        addTriggerForProtocol(aerodromeConfig);
-        addTriggerForProtocol(pancakeSwapV3Config);
-        addTriggerForProtocol(binPoolManagerConfig);
-        addTriggerForProtocol(cLPoolManagerConfig);
-        addTriggerForProtocol(algebraIntegralConfig);
-        addTriggerForProtocol(algebraConfig);
-        addTriggerForProtocol(gmxV2Config);
-        addTriggerForProtocol(renegadeConfig);
+        // addTriggerForProtocol(dodoV2Config);
+        // addTriggerForProtocol(wooFiConfig);
+        // addTriggerForProtocol(airSwapV4Config);
+        // addTriggerForProtocol(airSwapV5Config);
+        // addTriggerForProtocol(fluidDexConfig);
+        // addTriggerForProtocol(oneInchLOPV4Config);
+        // addTriggerForProtocol(kyberSwapLOPConfig);
+        // addTriggerForProtocol(kyberSwapDSLOPConfig);
+        // addTriggerForProtocol(maverickV2Config);
+        // addTriggerForProtocol(ekuboConfig);
+        // addTriggerForProtocol(zeroExProtocolConfig);
+        // addTriggerForProtocol(zeroExSettlerConfig);
+        // addTriggerForProtocol(balancerV3Config);
+        // addTriggerForProtocol(eulerSwapConfig);
+        // addTriggerForProtocol(aerodromeSlipstreamConfig);
+        // addTriggerForProtocol(aerodromeConfig);
+        // addTriggerForProtocol(pancakeSwapV3Config);
+        // addTriggerForProtocol(binPoolManagerConfig);
+        // addTriggerForProtocol(cLPoolManagerConfig);
+        // addTriggerForProtocol(algebraIntegralConfig);
+        // addTriggerForProtocol(algebraConfig);
+        // addTriggerForProtocol(gmxV2Config);
+        // addTriggerForProtocol(renegadeConfig);
     }
 }
