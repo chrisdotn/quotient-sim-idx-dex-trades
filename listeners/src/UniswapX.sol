@@ -10,6 +10,7 @@ import {getMetadata} from "./utils/ERC20Metadata.sol";
 import {FeeInjector} from "./libs/UniswapX/FeeInjector.sol";
 import "./types/DexTrades.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract UniswapXListener is
     OrderQuoter,
@@ -102,6 +103,18 @@ contract UniswapXListener is
             liquidityPool: platformContract,
             usdcValue: 0
         });
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
         emit DexTrade(trade);
     }
 

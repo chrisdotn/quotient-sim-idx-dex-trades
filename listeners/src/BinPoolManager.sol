@@ -12,6 +12,7 @@ import {BalanceDelta, BalanceDeltaLibrary} from "./libs/UniswapV4/BalanceDelta.s
 import {IHooks} from "./interfaces/UniswapV4/IHooks.sol";
 import {NativeTokenResolver} from "./NativeTokenResolver.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract BinPoolManagerListener is BinPoolManager$OnSwapFunction, NativeTokenResolver, IDexListener {
     function BinPoolManager$onSwapFunction(
@@ -62,6 +63,20 @@ contract BinPoolManagerListener is BinPoolManager$OnSwapFunction, NativeTokenRes
             trade.toTokenName = currency0Name;
             trade.toTokenDecimals = uint8(currency0Decimals);
         }
+
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
+
         emit DexTrade(trade);
     }
 }

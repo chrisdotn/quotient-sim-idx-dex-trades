@@ -6,6 +6,7 @@ import "sim-idx-sol/Simidx.sol";
 import "./types/DexTrades.sol";
 import "./utils/ERC20Metadata.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract BalancerV3Listener is BalancerV3Vault$OnSwapFunction, IDexListener {
     function BalancerV3Vault$onSwapFunction(
@@ -37,6 +38,19 @@ contract BalancerV3Listener is BalancerV3Vault$OnSwapFunction, IDexListener {
         trade.txnOriginator = tx.origin;
         trade.recipient = ctx.txn.call.callee();
         trade.liquidityPool = inputs.vaultSwapParams.pool;
+
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
 
         emit DexTrade(trade);
     }
