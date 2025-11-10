@@ -62,6 +62,8 @@ contract ChainlinkPriceFetcher {
         // no WETH on Soneium
         // no WETH on Shape
 
+        // VIRTUAL/USD
+        assetPriceFeeds[CHAIN_ID_BASE][0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b] = 0xEaf310161c9eF7c813A14f8FEF6Fb271434019F7;
 
         // USDT/USD
         assetPriceFeeds[CHAIN_ID_ETH][0xdAC17F958D2ee523a2206206994597C13D831ec7] = 0x3E7d1eAB13ad0104d2750B8863b489D65364e32D;
