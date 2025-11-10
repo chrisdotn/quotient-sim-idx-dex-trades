@@ -6,6 +6,7 @@ import "sim-idx-sol/Simidx.sol";
 import "./types/DexTrades.sol";
 import "./utils/ERC20Metadata.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract GMXV2Listener is EventEmitter$OnEventLog1Event, IDexListener {
     modifier onlySwapInfo(string memory eventName) {
@@ -42,6 +43,19 @@ contract GMXV2Listener is EventEmitter$OnEventLog1Event, IDexListener {
         trade.txnOriginator = tx.origin;
         trade.recipient = params.eventData.addressItems.items[1].value;
         trade.liquidityPool = params.eventData.addressItems.items[0].value;
+
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
 
         emit DexTrade(trade);
     }

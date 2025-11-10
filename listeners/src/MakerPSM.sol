@@ -7,6 +7,7 @@ import "./types/DexTrades.sol";
 import "./libs/Maker/MakerLib.sol";
 import "./utils/ERC20Metadata.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract MakerPSMListener is PSM$OnBuyGemFunction, PSM$OnSellGemFunction, IDexListener {
     function PSM$onBuyGemFunction(FunctionContext memory ctx, PSM$BuyGemFunctionInputs memory inputs)
@@ -39,6 +40,18 @@ contract MakerPSMListener is PSM$OnBuyGemFunction, PSM$OnSellGemFunction, IDexLi
             liquidityPool: ctx.txn.call.callee(),
             usdcValue: 0
         });
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
         emit DexTrade(trade);
     }
 
@@ -72,6 +85,18 @@ contract MakerPSMListener is PSM$OnBuyGemFunction, PSM$OnSellGemFunction, IDexLi
             liquidityPool: ctx.txn.call.callee(),
             usdcValue: 0
         });
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
         emit DexTrade(trade);
     }
 }

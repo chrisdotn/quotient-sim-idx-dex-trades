@@ -10,6 +10,7 @@ import {NativeTokenResolver} from "./NativeTokenResolver.sol";
 import {EkuboPoolKey} from "./types/Ekubo/PoolKey.sol";
 import {SqrtRatio} from "./types/Ekubo/SqrtRatio.sol";
 import "./interfaces/IDexListener.sol";
+import {ChainlinkPriceFetcher} from "./utils/ChainlinkPriceFetcher.sol";
 
 contract EkuboListener is
     EkuboCore$OnSwap611415377Function,
@@ -78,6 +79,20 @@ contract EkuboListener is
             trade.toTokenName = token0Name;
             trade.toTokenDecimals = uint8(token0Decimals);
         }
+
+        // fetch usdc value with CL oracle
+        ChainlinkPriceFetcher chainlinkPriceFetcher = new ChainlinkPriceFetcher();
+        (uint256 usdcPrice, uint256 usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.fromToken);
+        if (usdcPrice != 0) {
+            trade.usdcValue = trade.fromTokenAmt * usdcPrice / 10 ** usdcDecimals;
+        } else {
+            // try toToken
+            (usdcPrice, usdcDecimals) = chainlinkPriceFetcher.getChainlinkDataFeedLatestAnswer(trade.toToken);
+            if (usdcPrice != 0) {
+                trade.usdcValue = trade.toTokenAmt * usdcPrice / 10 ** usdcDecimals;
+            }
+        }
+
         emit DexTrade(trade);
     }
 
